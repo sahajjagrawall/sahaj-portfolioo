@@ -205,12 +205,12 @@ section.block:last-child{ border-bottom:none; }
   100%{ filter:blur(0) saturate(1) brightness(1); opacity:1; }
 }
 
-/* ---------- flame behind name ---------- */
+/* ---------- flame behind name, falling ---------- */
 .hero-flame{
   position:absolute; z-index:0; pointer-events:none;
-  left:50%; bottom:-16%; transform:translateX(-50%);
+  left:50%; top:-30%;
   width:clamp(46px,6vw,88px); height:clamp(90px,12vw,170px);
-  opacity:0; animation:flameIn .8s 1.6s ease-out forwards;
+  opacity:0; animation:flameFall 3.2s 1.6s ease-in infinite;
 }
 .flame-layer{
   position:absolute; left:50%; bottom:0; transform-origin:50% 100%;
@@ -235,7 +235,12 @@ section.block:last-child{ border-bottom:none; }
   opacity:.92; filter:blur(1.2px);
   animation:flicker3 1.5s ease-in-out infinite;
 }
-@keyframes flameIn{ to{ opacity:1; } }
+@keyframes flameFall{
+  0%{ transform:translateX(-50%) translateY(-20%); opacity:0; }
+  12%{ opacity:1; }
+  80%{ opacity:1; }
+  100%{ transform:translateX(-50%) translateY(180%); opacity:0; }
+}
 @keyframes flicker1{
   0%,100%{ transform:scaleY(1) scaleX(1) skewX(0deg); }
   25%{ transform:scaleY(1.06) scaleX(.96) skewX(-1.5deg); }
@@ -490,7 +495,7 @@ section.block:last-child{ border-bottom:none; }
   .film-card,.rec-card,.room-tile,.venture-card,.ps-item,.bts-item{ transition:none; opacity:1; transform:none; }
   .scroll-cue span{ animation:none; }
   .hero-bg{ transform:none!important; }
-  .hero-flame{ animation:none; opacity:1; }
+  .hero-flame{ animation:none; opacity:1; top:auto; bottom:-16%; transform:translateX(-50%); }
   .flame-layer{ animation:none; }
 }
 

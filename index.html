@@ -439,8 +439,6 @@ section.block:last-child{ border-bottom:none; }
   .masonry{ column-count:1; }
   .stat-row{ gap:24px; }
   .bracket{ width:14px; height:14px; }
-  .topnav{ max-width:calc(100vw - var(--rail-w) - 20px); top:14px; }
-  .top-scrim{ height:64px; }
 }
 
 @media (max-width:640px){
@@ -450,6 +448,9 @@ section.block:last-child{ border-bottom:none; }
   .film-meta h3{ font-size:17px; }
   .vc-body{ padding:18px 20px; }
   .rec-card,.room-tile{ padding:22px 20px; }
+  .bracket.tl,.bracket.tr{ display:none; }
+  .topnav{ top:16px; left:calc(var(--rail-w) + 14px); max-width:calc(100vw - var(--rail-w) - 28px); }
+  .top-scrim{ height:60px; }
   .tabs{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
   .tabs::-webkit-scrollbar{ display:none; }
   .tab-btn{ flex:0 0 auto; padding:10px 14px; font-size:11px; }

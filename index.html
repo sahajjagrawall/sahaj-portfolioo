@@ -191,7 +191,9 @@ section.block:last-child{ border-bottom:none; }
 }
 @keyframes leakSweep{ to{ transform:translateX(140%) rotate(8deg); } }
 .hero-inner{ position:relative; z-index:2; padding-block:64px clamp(48px,7vw,80px); width:100%; }
+.name-flame-wrap{ position:relative; display:inline-block; }
 .hero h1{
+  position:relative; z-index:1;
   font-size:clamp(52px,10vw,132px); line-height:.92; letter-spacing:-.01em;
   filter:blur(14px) saturate(0) brightness(.6);
   opacity:0;
@@ -201,6 +203,57 @@ section.block:last-child{ border-bottom:none; }
   0%{ filter:blur(14px) saturate(0) brightness(.6); opacity:0; }
   35%{ opacity:1; }
   100%{ filter:blur(0) saturate(1) brightness(1); opacity:1; }
+}
+
+/* ---------- flame behind name ---------- */
+.hero-flame{
+  position:absolute; z-index:0; pointer-events:none;
+  left:50%; bottom:-16%; transform:translateX(-50%);
+  width:clamp(46px,6vw,88px); height:clamp(90px,12vw,170px);
+  opacity:0; animation:flameIn .8s 1.6s ease-out forwards;
+}
+.flame-layer{
+  position:absolute; left:50%; bottom:0; transform-origin:50% 100%;
+  border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+  mix-blend-mode:screen;
+}
+.flame-outer{
+  width:100%; height:100%; margin-left:-50%;
+  background:linear-gradient(0deg, var(--accent-dim) 0%, var(--accent) 55%, #d6965a 100%);
+  opacity:.5; filter:blur(7px);
+  animation:flicker1 2.6s ease-in-out infinite;
+}
+.flame-mid{
+  width:66%; height:78%; margin-left:-33%;
+  background:linear-gradient(0deg, var(--accent) 0%, #d6965a 65%, #f0c893 100%);
+  opacity:.78; filter:blur(3px);
+  animation:flicker2 2.1s ease-in-out infinite;
+}
+.flame-inner{
+  width:38%; height:52%; margin-left:-19%;
+  background:linear-gradient(0deg, #b6402d 0%, #d6965a 55%, #f6dcae 100%);
+  opacity:.92; filter:blur(1.2px);
+  animation:flicker3 1.5s ease-in-out infinite;
+}
+@keyframes flameIn{ to{ opacity:1; } }
+@keyframes flicker1{
+  0%,100%{ transform:scaleY(1) scaleX(1) skewX(0deg); }
+  25%{ transform:scaleY(1.06) scaleX(.96) skewX(-1.5deg); }
+  50%{ transform:scaleY(.95) scaleX(1.04) skewX(1deg); }
+  75%{ transform:scaleY(1.03) scaleX(.98) skewX(-.5deg); }
+}
+@keyframes flicker2{
+  0%,100%{ transform:scaleY(1) scaleX(1) skewX(0deg); }
+  30%{ transform:scaleY(.92) scaleX(1.05) skewX(2deg); }
+  60%{ transform:scaleY(1.08) scaleX(.94) skewX(-1.5deg); }
+  85%{ transform:scaleY(.97) scaleX(1.02) skewX(1deg); }
+}
+@keyframes flicker3{
+  0%,100%{ transform:scaleY(1) skewX(0deg); }
+  20%{ transform:scaleY(1.1) skewX(-2deg); }
+  45%{ transform:scaleY(.9) skewX(2deg); }
+  70%{ transform:scaleY(1.05) skewX(-1deg); }
+  90%{ transform:scaleY(.96) skewX(1deg); }
 }
 .hero-loc{ margin-top:18px; font-size:13px; letter-spacing:.08em; color:var(--gray); text-transform:uppercase; }
 .hero-loc .dot{ color:var(--accent); margin:0 8px; }
@@ -437,6 +490,8 @@ section.block:last-child{ border-bottom:none; }
   .film-card,.rec-card,.room-tile,.venture-card,.ps-item,.bts-item{ transition:none; opacity:1; transform:none; }
   .scroll-cue span{ animation:none; }
   .hero-bg{ transform:none!important; }
+  .hero-flame{ animation:none; opacity:1; }
+  .flame-layer{ animation:none; }
 }
 
 @media (max-width:860px){
@@ -515,7 +570,14 @@ section.block:last-child{ border-bottom:none; }
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="light-leak" aria-hidden="true"></div>
     <div class="wrap hero-inner">
-      <h1>Sahaj Agrawal</h1>
+      <div class="name-flame-wrap">
+        <div class="hero-flame" aria-hidden="true">
+          <span class="flame-layer flame-outer"></span>
+          <span class="flame-layer flame-mid"></span>
+          <span class="flame-layer flame-inner"></span>
+        </div>
+        <h1>Sahaj Agrawal</h1>
+      </div>
       <p class="hero-loc">Indore, India<span class="dot">&mdash;</span>The Daly College</p>
       <p class="hero-tag">Writer and director working in psychological and emotional interiority &mdash; stories that stay in one room, sometimes with one actor, until a feeling has been followed all the way down.</p>
       <div class="stat-row">

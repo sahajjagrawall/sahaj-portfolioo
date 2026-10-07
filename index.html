@@ -114,33 +114,6 @@ button{ font-family:inherit; }
   background:radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
 }
 
-/* ---------- intro leader ---------- */
-.intro{
-  position:fixed; inset:0; z-index:200; background:#0a0908;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
-  transition:opacity .6s ease;
-}
-.intro[data-out="1"]{ opacity:0; pointer-events:none; }
-.leader-circle{
-  width:200px; height:200px; border-radius:50%;
-  border:1px solid var(--line);
-  position:relative;
-  display:flex; align-items:center; justify-content:center;
-}
-.leader-circle::before{
-  content:''; position:absolute; inset:0; border-radius:50%;
-  background:conic-gradient(var(--accent) var(--wipe, 0%), transparent 0);
-  opacity:.35;
-}
-.leader-circle::after{ content:''; position:absolute; inset:0; border-radius:50%; border-top:1px solid var(--gray-dark); border-left:1px solid var(--gray-dark); transform:rotate(45deg); }
-.leader-label{ font-family:var(--font-body); letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--gray); }
-.skip-btn{
-  background:none; border:1px solid var(--line); color:var(--gray);
-  font-family:var(--font-body); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-  padding:8px 16px; cursor:pointer;
-}
-.skip-btn:hover{ color:var(--ink); border-color:var(--ink); }
-
 /* ---------- top scrim (keeps nav/timecode legible while scrolling) ---------- */
 .top-scrim{
   position:fixed; top:0; left:var(--rail-w); right:0; height:76px; z-index:50; pointer-events:none;
@@ -549,12 +522,6 @@ section.block:last-child{ border-bottom:none; }
 <div class="bracket bl"></div>
 <div class="bracket br"></div>
 
-<div class="intro" id="intro" role="dialog" aria-label="Loading">
-  <div class="leader-circle" id="leaderCircle" style="--wipe:0%"></div>
-  <div class="leader-label">Loading reel&hellip;</div>
-  <button class="skip-btn" id="skipIntro" type="button">Skip</button>
-</div>
-
 <template id="shell-tpl">
 
 <nav class="topnav" aria-label="Primary">
@@ -898,40 +865,6 @@ function hostLabel(url){
     var h = new URL(url).hostname.replace(/^www\./,'');
     return h;
   }catch(e){ return 'link'; }
-}
-
-/* ============================================================
-   INTRO LEADER
-   ============================================================ */
-function runIntro(){
-  var intro = document.getElementById('intro');
-  var seen = false;
-  try{ seen = sessionStorage.getItem('sa_intro_seen') === '1'; }catch(e){}
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(seen || reduce){
-    intro.setAttribute('data-out','1');
-    intro.style.display = 'none';
-    return;
-  }
-  var n = 5;
-  var circle = document.getElementById('leaderCircle');
-  function tick(){
-    circle.style.setProperty('--wipe', ((5-n)/5*100) + '%');
-    n--;
-    if(n >= 0){ setTimeout(tick, 620); }
-    else{ finish(); }
-  }
-  function finish(){
-    intro.setAttribute('data-out','1');
-    try{ sessionStorage.setItem('sa_intro_seen','1'); }catch(e){}
-    setTimeout(function(){ intro.style.display='none'; }, 650);
-  }
-  setTimeout(tick, 350);
-  document.getElementById('skipIntro').addEventListener('click', function(){
-    intro.setAttribute('data-out','1');
-    try{ sessionStorage.setItem('sa_intro_seen','1'); }catch(e){}
-    setTimeout(function(){ intro.style.display='none'; }, 400);
-  });
 }
 
 /* ============================================================
@@ -1369,7 +1302,6 @@ function buildFullHtml(newState){
   out.push('<div class="top-scrim" aria-hidden="true"></div>');
   out.push('<div class="rail" aria-hidden="true"><div class="sprockets"></div><div class="frame-counter" id="frameCounter">01 / 07</div></div>');
   out.push('<div class="bracket tl"></div><div class="bracket tr"></div><div class="bracket bl"></div><div class="bracket br"></div>');
-  out.push('<div class="intro" id="intro" role="dialog" aria-label="Loading"><div class="leader-circle" id="leaderCircle" style="--wipe:0%"></div><div class="leader-label">Loading reel&hellip;</div><button class="skip-btn" id="skipIntro" type="button">Skip</button></div>');
   out.push('<template id="shell-tpl">' + shellTpl.innerHTML + '<' + '/template>');
   out.push('<div id="app"></div>');
   out.push('<script type="application/json" id="state-data">' + stateJson + SCRIPT_TAG_CLOSE);
@@ -1546,7 +1478,6 @@ function boot(){
   app.appendChild(tpl.content.cloneNode(true));
 
   setupReveal();
-  runIntro();
   renderAll();
   setupHeroParallax();
   observeReveal(document); // static cards (recognition, room) never re-render, so wire their reveal-in here once

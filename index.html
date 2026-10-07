@@ -133,7 +133,6 @@ button{ font-family:inherit; }
   opacity:.35;
 }
 .leader-circle::after{ content:''; position:absolute; inset:0; border-radius:50%; border-top:1px solid var(--gray-dark); border-left:1px solid var(--gray-dark); transform:rotate(45deg); }
-.leader-num{ font-family:var(--font-display); font-size:64px; color:var(--ink); position:relative; z-index:2; }
 .leader-label{ font-family:var(--font-body); letter-spacing:.3em; text-transform:uppercase; font-size:11px; color:var(--gray); }
 .skip-btn{
   background:none; border:1px solid var(--line); color:var(--gray);
@@ -551,9 +550,7 @@ section.block:last-child{ border-bottom:none; }
 <div class="bracket br"></div>
 
 <div class="intro" id="intro" role="dialog" aria-label="Loading">
-  <div class="leader-circle" id="leaderCircle" style="--wipe:0%">
-    <span class="leader-num" id="leaderNum">5</span>
-  </div>
+  <div class="leader-circle" id="leaderCircle" style="--wipe:0%"></div>
   <div class="leader-label">Loading reel&hellip;</div>
   <button class="skip-btn" id="skipIntro" type="button">Skip</button>
 </div>
@@ -917,10 +914,8 @@ function runIntro(){
     return;
   }
   var n = 5;
-  var numEl = document.getElementById('leaderNum');
   var circle = document.getElementById('leaderCircle');
   function tick(){
-    numEl.textContent = String(n);
     circle.style.setProperty('--wipe', ((5-n)/5*100) + '%');
     n--;
     if(n >= 0){ setTimeout(tick, 620); }
@@ -1374,7 +1369,7 @@ function buildFullHtml(newState){
   out.push('<div class="top-scrim" aria-hidden="true"></div>');
   out.push('<div class="rail" aria-hidden="true"><div class="sprockets"></div><div class="frame-counter" id="frameCounter">01 / 07</div></div>');
   out.push('<div class="bracket tl"></div><div class="bracket tr"></div><div class="bracket bl"></div><div class="bracket br"></div>');
-  out.push('<div class="intro" id="intro" role="dialog" aria-label="Loading"><div class="leader-circle" id="leaderCircle" style="--wipe:0%"><span class="leader-num" id="leaderNum">5</span></div><div class="leader-label">Loading reel&hellip;</div><button class="skip-btn" id="skipIntro" type="button">Skip</button></div>');
+  out.push('<div class="intro" id="intro" role="dialog" aria-label="Loading"><div class="leader-circle" id="leaderCircle" style="--wipe:0%"></div><div class="leader-label">Loading reel&hellip;</div><button class="skip-btn" id="skipIntro" type="button">Skip</button></div>');
   out.push('<template id="shell-tpl">' + shellTpl.innerHTML + '<' + '/template>');
   out.push('<div id="app"></div>');
   out.push('<script type="application/json" id="state-data">' + stateJson + SCRIPT_TAG_CLOSE);

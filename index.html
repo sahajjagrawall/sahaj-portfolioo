@@ -527,8 +527,7 @@ section.block:last-child{ border-bottom:none; }
 <nav class="topnav" aria-label="Primary">
   <a href="#/" data-route="/">Portfolio</a><span class="slash">/</span>
   <a href="#/work" data-route="/work">Work</a><span class="slash">/</span>
-  <a href="#/photography" data-route="/photography">Photography</a><span class="slash">/</span>
-  <a href="#/upload" data-route="/upload">Upload</a>
+  <a href="#/photography" data-route="/photography">Photography</a>
 </nav>
 
 <main>
@@ -690,57 +689,6 @@ section.block:last-child{ border-bottom:none; }
   <div class="wrap"><div class="masonry" id="photoGrid"></div></div>
 </section>
 
-<section class="view" data-view="/upload" id="view-upload" hidden>
-  <div class="wrap upload-head" data-section="uploadhead">
-    <p class="eyebrow">Upload</p>
-    <h1>Add to the site.</h1>
-    <p>Paste a link to a film or reel, or drop photos straight in &mdash; they publish to the live site immediately, no code required.</p>
-    <div class="owner-gate" id="ownerGate" hidden></div>
-  </div>
-  <div class="wrap" id="uploadBody">
-    <div class="tabs" role="tablist">
-      <button class="tab-btn" role="tab" id="tab-films" aria-selected="true" data-tab="films">Films</button>
-      <button class="tab-btn" role="tab" id="tab-reels" aria-selected="false" data-tab="reels">Short videos / reels</button>
-      <button class="tab-btn" role="tab" id="tab-photos" aria-selected="false" data-tab="photos">Photos</button>
-    </div>
-
-    <div class="tab-panel" id="panel-films" role="tabpanel">
-      <p style="color:var(--gray); font-size:13px; max-width:56ch;">Upload the film itself somewhere you already use &mdash; YouTube (unlisted works fine), Google Drive, Vimeo &mdash; then paste that link here. It appears in the archive instantly for anyone visiting the site; clicking the tile opens the film to play.</p>
-      <form class="link-form" data-cat="films">
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="url" name="url" placeholder="Link (YouTube, Drive, Vimeo…)" required>
-        <button class="btn" type="submit">Add film</button>
-      </form>
-    </div>
-    <div class="tab-panel" id="panel-reels" role="tabpanel" hidden>
-      <p style="color:var(--gray); font-size:13px; max-width:56ch;">Same idea, for shorter reels &mdash; paste the link once it&rsquo;s hosted somewhere.</p>
-      <form class="link-form" data-cat="reels">
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="url" name="url" placeholder="Link" required>
-        <input type="text" name="views" placeholder="Views (optional, e.g. 35K)">
-        <button class="btn" type="submit">Add reel</button>
-      </form>
-    </div>
-    <div class="tab-panel" id="panel-photos" role="tabpanel" hidden>
-      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Add photos">
-        <h3>Drop photos here</h3>
-        <p>or click to browse &mdash; multiple files at once. They&rsquo;re resized for the web and published straight to the Photography page.</p>
-        <input type="file" id="fileInput" accept="image/*" multiple hidden>
-      </div>
-      <div class="file-progress" id="fileProgress"></div>
-    </div>
-
-    <div class="upload-gallery">
-      <h2>Films in the archive</h2>
-      <div class="media-grid" id="uploadFilmsPreview"></div>
-      <h2>Reels in the archive</h2>
-      <div class="media-grid" id="uploadReelsPreview"></div>
-      <h2>Photos on the site</h2>
-      <div class="masonry" id="uploadPhotosPreview"></div>
-    </div>
-  </div>
-</section>
-
 </main>
 </template>
 
@@ -873,7 +821,7 @@ function hostLabel(url){
 function currentRoute(){
   var h = location.hash.replace(/^#/,'');
   if(!h) h = '/';
-  if(['/','/work','/photography','/upload'].indexOf(h) === -1) h = '/';
+  if(['/','/work','/photography'].indexOf(h) === -1) h = '/';
   return h;
 }
 function applyRoute(){
